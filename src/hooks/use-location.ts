@@ -19,15 +19,14 @@ export function useLocation() {
           `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`,
         );
         const data = await response.json();
-        return (
-          data.city ||
-          data.locality ||
-          data.principalSubdivision ||
-          "Lags, Nigeria"
-        );
+        const city = data.city || data.locality || "";
+        const state = data.principalSubdivision || "";
+
+        if (city && state) return `${city}, ${state}`;
+        return city || state || "Lagos, Nigeria";
       } catch (err) {
         console.error("Reverse geocoding failed:", err);
-        return "Lags, Nigeria";
+        return "Lagos, Nigeria";
       }
     };
 
@@ -35,7 +34,7 @@ export function useLocation() {
       setError("Geolocation not supported");
       setLoading(false);
       // Fallback to Lags
-      setLocation({ lat: 6.5244, lng: 3.3792, locality: "Lags, Nigeria" });
+      setLocation({ lat: 6.5244, lng: 3.3792, locality: "Lagos, Nigeria" });
       return;
     }
 
@@ -56,7 +55,7 @@ export function useLocation() {
       },
       () => {
         setError("Location access denied");
-        setLocation({ lat: 6.5244, lng: 3.3792, locality: "Lags, Nigeria" });
+        setLocation({ lat: 6.5244, lng: 3.3792, locality: "Lagos, Nigeria" });
         setLoading(false);
       },
     );
