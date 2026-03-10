@@ -17,7 +17,7 @@ export function useLocation() {
       setError("Geolocation not supported");
       setLoading(false);
       // Fallback to Lagos
-      setLocation({ lat: 6.5244, lng: 3.3792, locality: "Lagos, Nigeria" });
+      setLocation({ lat: 6.5244, lng: 3.3792, locality: "Lags, Nigeria" });
       return;
     }
 
@@ -26,13 +26,13 @@ export function useLocation() {
         setLocation({
           lat: pos.coords.latitude,
           lng: pos.coords.longitude,
-          locality: "Lagos, Nigeria", // In production, reverse geocode
+          locality: "Lags, Nigeria", // In production, reverse geocode
         });
         setLoading(false);
       },
       () => {
         setError("Location access denied");
-        setLocation({ lat: 6.5244, lng: 3.3792, locality: "Lagos, Nigeria" });
+        setLocation({ lat: 6.5244, lng: 3.3792, locality: "Lags, Nigeria" });
         setLoading(false);
       }
     );
