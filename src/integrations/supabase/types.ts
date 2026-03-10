@@ -14,7 +14,151 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      fuel_report_votes: {
+        Row: {
+          created_at: string
+          id: string
+          report_id: string
+          user_id: string
+          vote_type: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          report_id: string
+          user_id: string
+          vote_type: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          report_id?: string
+          user_id?: string
+          vote_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fuel_report_votes_report_id_fkey"
+            columns: ["report_id"]
+            isOneToOne: false
+            referencedRelation: "fuel_reports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      fuel_reports: {
+        Row: {
+          created_at: string
+          downvotes: number
+          fuel_type: string
+          id: string
+          lat: number
+          lng: number
+          photo_url: string | null
+          price: number
+          station_name: string
+          upvotes: number
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          downvotes?: number
+          fuel_type: string
+          id?: string
+          lat: number
+          lng: number
+          photo_url?: string | null
+          price: number
+          station_name: string
+          upvotes?: number
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          downvotes?: number
+          fuel_type?: string
+          id?: string
+          lat?: number
+          lng?: number
+          photo_url?: string | null
+          price?: number
+          station_name?: string
+          upvotes?: number
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          id: string
+          reports_count: number
+          tips_earned: number
+          trust_score: number
+          updated_at: string
+          user_id: string
+          username: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          reports_count?: number
+          tips_earned?: number
+          trust_score?: number
+          updated_at?: string
+          user_id: string
+          username: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          reports_count?: number
+          tips_earned?: number
+          trust_score?: number
+          updated_at?: string
+          user_id?: string
+          username?: string
+        }
+        Relationships: []
+      }
+      tips: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          receiver_id: string
+          report_id: string
+          sender_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          receiver_id: string
+          report_id: string
+          sender_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          receiver_id?: string
+          report_id?: string
+          sender_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tips_report_id_fkey"
+            columns: ["report_id"]
+            isOneToOne: false
+            referencedRelation: "fuel_reports"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
