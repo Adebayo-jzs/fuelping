@@ -1,102 +1,123 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FuelReport } from "@/lib/types";
-
-const MOCK_REPORTS: FuelReport[] = [
-  {
-    id: "1",
-    stationName: "Total Energies - Lekki",
-    fuelType: "PMS",
-    price: 617,
-    reporter: "AdebolaNG",
-    timePosted: new Date(Date.now() - 25 * 60 * 1000),
-    distance: 0.8,
-    upvotes: 12,
-    downvotes: 1,
-    lat: 6.4541,
-    lng: 3.4725,
-  },
-  {
-    id: "2",
-    stationName: "NNPC Mega Station - Ikoyi",
-    fuelType: "PMS",
-    price: 590,
-    reporter: "FuelHunter",
-    timePosted: new Date(Date.now() - 45 * 60 * 1000),
-    distance: 1.2,
-    upvotes: 34,
-    downvotes: 2,
-    lat: 6.4481,
-    lng: 3.4345,
-  },
-  {
-    id: "3",
-    stationName: "Mobil - Victoria Island",
-    fuelType: "Diesel",
-    price: 1250,
-    reporter: "LagosDriver",
-    timePosted: new Date(Date.now() - 80 * 60 * 1000),
-    distance: 2.1,
-    upvotes: 8,
-    downvotes: 0,
-    lat: 6.4281,
-    lng: 3.4215,
-  },
-  {
-    id: "4",
-    stationName: "Conoil - Ajah",
-    fuelType: "PMS",
-    price: 630,
-    reporter: "NaijaRider",
-    timePosted: new Date(Date.now() - 100 * 60 * 1000),
-    distance: 3.5,
-    upvotes: 5,
-    downvotes: 3,
-    lat: 6.4641,
-    lng: 3.5825,
-  },
-  {
-    id: "5",
-    stationName: "AP - Surulere",
-    fuelType: "Gas",
-    price: 980,
-    reporter: "GasTracker",
-    timePosted: new Date(Date.now() - 110 * 60 * 1000),
-    distance: 4.8,
-    upvotes: 3,
-    downvotes: 1,
-    lat: 6.5041,
-    lng: 3.3525,
-  },
-];
+import { supabase } from "@/integrations/supabase/client";
+import { useLocation } from "./use-location";
+import { toast } from "sonner";
 
 export function useFuelReports() {
-  const [reports, setReports] = useState<FuelReport[]>(MOCK_REPORTS);
+  const [reports, setReports] = useState<FuelReport[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { location } = useLocation();
 
-  const addReport = (report: Omit<FuelReport, "id" | "timePosted" | "upvotes" | "downvotes" | "distance">) => {
-    const newReport: FuelReport = {
-      ...report,
-      id: crypto.randomUUID(),
-      timePosted: new Date(),
-      upvotes: 0,
-      downvotes: 0,
-      distance: Math.round(Math.random() * 40 + 2) / 10,
-    };
-    setReports((prev) => [newReport, ...prev]);
+  const fetchReports = async () => {
+    try {
+      setLoading(true);
+      const { data, error } = await supabase
+        .from("fuel_reports")
+        .select(`
+          *,
+          profiles:user_id (username)
+        `)
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+
+      const formattedReports: FuelReport[] = data.map((report: any) => ({
+        id: report.id,
+        stationName: report.station_name,
+        fuelType: report.fuel_type as "PMS" | "Diesel" | "Gas",
+        price: report.price,
+        reporter: report.profiles?.username || "Anonymous",
+        timePosted: new Date(report.created_at),
+        distance: calculateDistance(location?.lat || 6.45, location?.lng || 3.47, report.lat, report.lng),
+        upvotes: report.upvotes,
+        downvotes: report.downvotes,
+        lat: report.lat,
+        lng: report.lng,
+        photo: report.photo_url,
+      }));
+
+      setReports(formattedReports);
+    } catch (error: any) {
+      console.error("Error fetching reports:", error);
+      toast.error("Failed to load fuel reports");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const vote = (id: string, type: "up" | "down") => {
-    setReports((prev) =>
-      prev.map((r) =>
-        r.id === id
-          ? { ...r, upvotes: r.upvotes + (type === "up" ? 1 : 0), downvotes: r.downvotes + (type === "down" ? 1 : 0) }
-          : r
-      )
-    );
+  useEffect(() => {
+    fetchReports();
+  }, [location]);
+
+  const addReport = async (report: Omit<FuelReport, "id" | "timePosted" | "upvotes" | "downvotes" | "distance">) => {
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData.user) {
+        toast.error("Please log in to post a report");
+        return;
+      }
+
+      const { error } = await supabase.from("fuel_reports").insert({
+        user_id: userData.user.id,
+        station_name: report.stationName,
+        fuel_type: report.fuelType,
+        price: report.price,
+        lat: report.lat,
+        lng: report.lng,
+        photo_url: report.photo,
+      });
+
+      if (error) throw error;
+
+      toast.success("Report posted successfully!");
+      fetchReports();
+    } catch (error: any) {
+      console.error("Error adding report:", error);
+      toast.error(error.message || "Failed to post report");
+    }
   };
 
-  const activeReports = reports.filter(
-    (r) => Date.now() - r.timePosted.getTime() < 2 * 60 * 60 * 1000
-  );
+  const vote = async (id: string, type: "up" | "down") => {
+    try {
+      const { data: userData } = await supabase.auth.getUser();
+      if (!userData.user) {
+        toast.error("Please log in to vote");
+        return;
+      }
 
-  return { reports: activeReports, addReport, vote };
+      const { error } = await supabase.from("fuel_report_votes").upsert({
+        report_id: id,
+        user_id: userData.user.id,
+        vote_type: type,
+      });
+
+      if (error) throw error;
+
+      // In production, you'd use a database function to update counts
+      // For now, we'll refetch to show updated data
+      fetchReports();
+    } catch (error: any) {
+      console.error("Error voting:", error);
+      toast.error("Failed to register vote");
+    }
+  };
+
+  return { reports, addReport, vote, loading, refresh: fetchReports };
+}
+
+function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
+  const R = 6371; // Radius of the earth in km
+  const dLat = deg2rad(lat2 - lat1);
+  const dLon = deg2rad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const d = R * c; // Distance in km
+  return Math.round(d * 10) / 10;
+}
+
+function deg2rad(deg: number) {
+  return deg * (Math.PI / 180);
 }

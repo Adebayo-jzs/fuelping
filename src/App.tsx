@@ -9,6 +9,8 @@ import PostUpdatePage from "./pages/PostUpdatePage";
 import ProfilePage from "./pages/ProfilePage";
 import NotFound from "./pages/NotFound";
 
+import AuthPage from "./pages/Auth";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -21,6 +23,7 @@ const App = () => (
           <Route path="/map" element={<MapPage />} />
           <Route path="/post" element={<PostUpdatePage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/auth" element={<AuthPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <BottomNav />
