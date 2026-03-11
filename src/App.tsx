@@ -25,7 +25,7 @@ const App = () => (
             <Route path="/map" element={<MapPage />} />
             <Route path="/post" element={<PostUpdatePage />} />
             <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/auth" element={<AuthPage />} />
+            {/* <Route path="/auth" element={<AuthPage />} /> */}
             <Route path="*" element={<NotFound />} />
           </Routes>
           <BottomNav />
