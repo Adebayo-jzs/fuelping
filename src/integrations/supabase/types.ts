@@ -54,8 +54,10 @@ export type Database = {
           id: string
           lat: number
           lng: number
+          locality: string | null
           photo_url: string | null
           price: number
+          state: string | null
           station_name: string
           upvotes: number
           user_id: string
@@ -67,8 +69,10 @@ export type Database = {
           id?: string
           lat: number
           lng: number
+          locality?: string | null
           photo_url?: string | null
           price: number
+          state?: string | null
           station_name: string
           upvotes?: number
           user_id: string
@@ -80,8 +84,10 @@ export type Database = {
           id?: string
           lat?: number
           lng?: number
+          locality?: string | null
           photo_url?: string | null
           price?: number
+          state?: string | null
           station_name?: string
           upvotes?: number
           user_id?: string

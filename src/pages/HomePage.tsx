@@ -3,8 +3,18 @@ import { FuelCard } from "@/components/FuelCard";
 import { useFuelReports } from "@/hooks/use-fuel-reports";
 import { useLocation } from "@/hooks/use-location";
 import { MapPin, Flame, Loader2, LogIn, User } from "lucide-react";
+import { 
+  Location01Icon, 
+  FireIcon, 
+  FilterIcon,
+  InformationCircleIcon,
+  FuelStationIcon,
+  User03Icon
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+// import hugeI
 
 export default function HomePage() {
   const navigate = useNavigate();
@@ -35,9 +45,9 @@ export default function HomePage() {
       <header className="sticky top-0 z-30 bg-background/95 backdrop-blur-md border-b border-border px-4 pt-6 pb-4">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl fuel-gradient flex items-center justify-center fuel-glow">
-              <Flame className="w-6 h-6 text-primary-foreground" />
-            </div>
+            {/* <div className="w-9 h-9 rounded-xl fuel-gradient flex items-center justify-center fuel-glow">
+              <HugeiconsIcon icon={FuelStationIcon} className="w-6 h-6 text-primary-foreground" />
+            </div> */}
             <h1 className="font-display font-bold text-2xl tracking-tight text-foreground">Fuelping</h1>
           </div>
           
@@ -55,7 +65,7 @@ export default function HomePage() {
                 onClick={() => navigate("/profile")}
                 className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary transition-colors border border-border"
               >
-                <User className="w-4 h-4" />
+                <HugeiconsIcon icon={User03Icon} className="w-4 h-4" />
               </button>
             )}
           </div>
@@ -69,7 +79,7 @@ export default function HomePage() {
             </div>
           ) : (
             <div className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-secondary/50 border border-border/50 text-[10px] font-bold text-muted-foreground uppercase tracking-wider">
-              <MapPin className="w-3 h-3 text-primary" />
+              <HugeiconsIcon icon={Location01Icon} className="w-3 h-3 text-primary" />
               <span>{location?.locality || "Earth"}</span>
             </div>
           )}

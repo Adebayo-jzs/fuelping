@@ -12,6 +12,16 @@ export interface FuelReport {
   lng: number;
   photo?: string;
   userVote?: "up" | "down";
+  locality?: string;
+  state?: string;
+}
+
+export interface Location {
+  lat: number;
+  lng: number;
+  locality: string;
+  city: string;
+  state: string;
 }
 
 export interface UserProfile {

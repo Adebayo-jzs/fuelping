@@ -1,11 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
-
-interface Location {
-  lat: number;
-  lng: number;
-  locality: string;
-}
+import { Location } from "@/lib/types";
 
 export function useLocation() {
   const [location, setLocation] = useState<Location | null>(null);
@@ -13,7 +8,7 @@ export function useLocation() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchLocality = async (lat: number, lng: number) => {
+    const fetchLocationDetails = async (lat: number, lng: number) => {
       try {
         const response = await fetch(
           `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`,
@@ -22,19 +17,24 @@ export function useLocation() {
         const city = data.city || data.locality || "";
         const state = data.principalSubdivision || "";
 
-        if (city && state) return `${city}, ${state}`;
-        return city || state || "Lagos, Nigeria";
+        return { city, state };
       } catch (err) {
         console.error("Reverse geocoding failed:", err);
-        return "Lagos, Nigeria";
+        return { city: "Lagos", state: "Lagos State" };
       }
     };
 
     if (!navigator.geolocation) {
       setError("Geolocation not supported");
       setLoading(false);
-      // Fallback to Lags
-      setLocation({ lat: 6.5244, lng: 3.3792, locality: "Lagos, Nigeria" });
+      // Fallback to Lagos
+      setLocation({ 
+        lat: 6.5244, 
+        lng: 3.3792, 
+        city: "Lagos", 
+        state: "Lagos State",
+        locality: "Lagos, Nigeria" 
+      });
       return;
     }
 
@@ -44,18 +44,26 @@ export function useLocation() {
         const lng = pos.coords.longitude;
 
         setLoading(true);
-        const locality = await fetchLocality(lat, lng);
+        const { city, state } = await fetchLocationDetails(lat, lng);
 
         setLocation({
           lat,
           lng,
-          locality,
+          city,
+          state,
+          locality: city && state ? `${city}, ${state}` : (city || state || "Lagos, Nigeria"),
         });
         setLoading(false);
       },
       () => {
         setError("Location access denied");
-        setLocation({ lat: 6.5244, lng: 3.3792, locality: "Lagos, Nigeria" });
+        setLocation({ 
+          lat: 6.5244, 
+          lng: 3.3792, 
+          city: "Lagos", 
+          state: "Lagos State",
+          locality: "Lagos, Nigeria" 
+        });
         setLoading(false);
       },
     );

@@ -1,7 +1,8 @@
-import { FuelReport } from "@/lib/types";
-import { Fuel, ThumbsUp, ThumbsDown, Clock, MapPin } from "lucide-react";
-import { useState } from "react";
+import { FuelReport } from "@/lib/types"; 
+import { useState, useEffect } from "react";
 import { TipModal } from "./TipModal";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Clock01Icon, FuelStationIcon, Location01Icon,ThumbsDownIcon,ThumbsUpIcon } from "@hugeicons/core-free-icons";
 
 function timeAgo(date: Date): string {
   const mins = Math.floor((Date.now() - date.getTime()) / 60000);
@@ -26,22 +27,44 @@ interface FuelCardProps {
 
 export function FuelCard({ report, onVote }: FuelCardProps) {
   const [showTip, setShowTip] = useState(false);
+  const [locality, setLocality] = useState<string>(report.locality || "");
 
+  useEffect(() => {
+    if (report.locality) return;
+
+    const fetchLocality = async (lat: number, lng: number) => {
+      try {
+        const response = await fetch(
+          `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}&localityLanguage=en`,
+        );
+        const data = await response.json();
+        const city = data.city || data.locality || "";
+        const state = data.principalSubdivision || "";
+
+        return city && state ? `${city}, ${state}` : (city || state || "Lagos, Nigeria");
+      } catch (err) {
+        console.error("Reverse geocoding failed:", err);
+        return "Lagos, Nigeria";
+      }
+    };
+
+    fetchLocality(report.lat, report.lng).then(setLocality);
+  }, [report.lat, report.lng, report.locality]);
   return (
     <>
       <div className="bg-card rounded-lg p-4 border border-border animate-slide-up">
         <div className="flex items-start justify-between mb-3">
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
-              <Fuel className="w-4 h-4 text-primary" />
+              <HugeiconsIcon icon={FuelStationIcon} className="w-4 h-4 text-primary" />
               <h3 className="font-display font-semibold text-foreground text-sm leading-tight">
                 {report.stationName}
               </h3>
             </div>
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <MapPin className="w-3 h-3" />
-              <span>{report.distance} km away</span>
-              <Clock className="w-3 h-3 ml-1" />
+              <HugeiconsIcon icon={Location01Icon} className="w-3 h-3" />
+              <span>{locality || "Loading..."} • {report.distance} km away</span>
+              <HugeiconsIcon icon={Clock01Icon} className="w-3 h-3 ml-1" />
               <span>{timeAgo(report.timePosted)}</span>
             </div>
           </div>
@@ -68,7 +91,7 @@ export function FuelCard({ report, onVote }: FuelCardProps) {
                   : "bg-success/10 text-success hover:bg-success/20"
               }`}
             >
-              <ThumbsUp className={`w-3 h-3 ${report.userVote === "up" ? "fill-current" : ""}`} /> {report.upvotes}
+               <HugeiconsIcon  icon={ThumbsUpIcon} className={`w-3 h-3 ${report.userVote === "up" ? "fill-current" : ""}`} /> {report.upvotes}
             </button>
             <button
               onClick={() => onVote(report.id, "down")}
@@ -78,7 +101,7 @@ export function FuelCard({ report, onVote }: FuelCardProps) {
                   : "bg-destructive/10 text-destructive hover:bg-destructive/20"
               }`}
             >
-              <ThumbsDown className={`w-3 h-3 ${report.userVote === "down" ? "fill-current" : ""}`} /> {report.downvotes}
+              <HugeiconsIcon  icon={ThumbsDownIcon} className={`w-3 h-3 ${report.userVote === "down" ? "fill-current" : ""}`} /> {report.downvotes}
             </button>
             {/* <button
               onClick={() => setShowTip(true)}

@@ -41,6 +41,8 @@ export default function PostUpdatePage() {
         price: parseInt(price),
         lat: location.lat,
         lng: location.lng,
+        locality: location.city,
+        state: location.state,
       });
       navigate("/");
     } catch (error) {
@@ -118,7 +120,7 @@ export default function PostUpdatePage() {
           </div>
 
           {/* Photo */}
-          <div className="space-y-1.5">
+          {/* <div className="space-y-1.5">
             <label className="text-sm font-medium text-muted-foreground ml-1">Evidence (optional)</label>
             <button
               type="button"
@@ -129,7 +131,7 @@ export default function PostUpdatePage() {
               </div>
               <span className="text-xs font-bold">Snap Price Board</span>
             </button>
-          </div>
+          </div> */}
 
           {/* Location */}
           <div className="flex items-center gap-3 text-sm text-muted-foreground bg-secondary/50 backdrop-blur-sm rounded-2xl px-4 py-4 border border-border">

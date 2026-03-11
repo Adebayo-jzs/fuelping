@@ -52,6 +52,8 @@ export function useFuelReports() {
         lng: report.lng,
         photo: report.photo_url,
         userVote: userVotes[report.id],
+        locality: report.locality,
+        state: report.state,
       }));
 
       setReports(formattedReports);
@@ -83,6 +85,8 @@ export function useFuelReports() {
         lat: report.lat,
         lng: report.lng,
         photo_url: report.photo,
+        locality: report.locality,
+        state: report.state,
       });
 
       if (error) throw error;
