@@ -72,13 +72,9 @@ export function useFuelReports() {
   const addReport = async (report: Omit<FuelReport, "id" | "timePosted" | "upvotes" | "downvotes" | "distance" | "reporter">) => {
     try {
       const { data: userData } = await supabase.auth.getUser();
-      if (!userData.user) {
-        toast.error("Please log in to post a report");
-        return;
-      }
-
+      
       const { error } = await supabase.from("fuel_reports").insert({
-        user_id: userData.user.id,
+        user_id: userData.user?.id || null,
         station_name: report.stationName,
         fuel_type: report.fuelType,
         price: report.price,

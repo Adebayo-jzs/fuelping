@@ -60,7 +60,7 @@ export type Database = {
           state: string | null
           station_name: string
           upvotes: number
-          user_id: string
+          user_id: string | null
         }
         Insert: {
           created_at?: string
@@ -75,7 +75,7 @@ export type Database = {
           state?: string | null
           station_name: string
           upvotes?: number
-          user_id: string
+          user_id?: string | null
         }
         Update: {
           created_at?: string
@@ -90,7 +90,7 @@ export type Database = {
           state?: string | null
           station_name?: string
           upvotes?: number
-          user_id?: string
+          user_id?: string | null
         }
         Relationships: []
       }

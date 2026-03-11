@@ -18,10 +18,6 @@ export default function PostUpdatePage() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) {
-        toast.error("Please sign in to post updates");
-        navigate("/auth");
-      }
       setCheckingAuth(false);
     });
   }, [navigate]);
