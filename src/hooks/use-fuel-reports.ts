@@ -99,7 +99,7 @@ export function useFuelReports() {
     try {
       const { data: userData } = await supabase.auth.getUser();
       if (!userData.user) {
-        toast.error("Please log in to vote");
+        toast.error("Please log in rate.");
         return;
       }
 
