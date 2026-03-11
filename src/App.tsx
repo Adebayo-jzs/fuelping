@@ -10,9 +10,7 @@ import MapPage from "./pages/MapPage";
 import PostUpdatePage from "./pages/PostUpdatePage";
 import ProfilePage from "./pages/ProfilePage";
 import AuthPage from "./pages/AuthPage";
-import NotFound from "./pages/NotFound";
-
-// import AuthPage from "./pages/Auth";
+import NotFound from "./pages/NotFound"; 
 
 const queryClient = new QueryClient();
 
@@ -26,6 +24,7 @@ const App = () => (
           <Route path="/map" element={<MapPage />} />
           <Route path="/post" element={<PostUpdatePage />} />
           <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/auth" element={<AuthPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <BottomNav />

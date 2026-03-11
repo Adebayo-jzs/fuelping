@@ -97,7 +97,7 @@ export default function HomePage() {
         {reportsLoading ? (
           <div className="flex flex-col items-center justify-center py-20 gap-4">
             <Loader2 className="w-8 h-8 text-primary animate-spin" />
-            <p className="text-sm font-medium text-muted-foreground">Scanning for fuel intel...</p>
+            <p className="text-sm font-medium text-muted-foreground">Scanning for fuel reports...</p>
           </div>
         ) : (
           <>
@@ -107,7 +107,7 @@ export default function HomePage() {
                 <div className="absolute inset-0 w-2 h-2 rounded-full bg-success animate-ping" />
               </div>
               <span className="text-xs font-bold text-muted-foreground uppercase tracking-widest">
-                {filteredReports.length} Active Intel Reports
+                {filteredReports.length} Active Reports
               </span>
             </div>
 
@@ -119,13 +119,13 @@ export default function HomePage() {
               {filteredReports.length === 0 && (
                 <div className="text-center py-20 bg-secondary/20 rounded-3xl border-2 border-dashed border-border/50">
                   <Flame className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4" />
-                  <p className="text-muted-foreground font-bold italic">No {filter !== "All" ? filter : ""} intel found nearby</p>
+                  <p className="text-muted-foreground font-bold italic">No {filter !== "All" ? filter : ""} reports found nearby</p>
                   <p className="text-[10px] text-muted-foreground/60 mt-2 uppercase tracking-widest font-bold">Be the first to report</p>
                   <button 
                     onClick={() => navigate("/post")}
                     className="mt-6 px-6 py-2.5 rounded-xl bg-primary/10 text-primary font-bold text-sm hover:bg-primary/20 transition-all"
                   >
-                    Post Intel
+                    Post reports
                   </button>
                 </div>
               )}

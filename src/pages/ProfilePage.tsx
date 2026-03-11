@@ -60,7 +60,27 @@ export default function ProfilePage() {
       </div>
     );
   }
-
+  let acclevel = 0;
+  let nextTarget = 0;
+  if (profile?.reports_count >= 10){
+    acclevel = 5;
+    // nextTarget = 10;
+  } else if (profile?.reports_count > 7){
+    acclevel = 4;
+    nextTarget = 10;
+  } else if (profile?.reports_count > 5){
+    acclevel = 3;
+    nextTarget = 8;
+  } else if (profile?.reports_count > 2){
+    acclevel = 2;
+    nextTarget = 6;
+  } else if (profile?.reports_count > 0){
+    acclevel = 1;
+    nextTarget = 2
+  } else{
+    acclevel = 0;
+    nextTarget  = 1
+  }
   if (!session) {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-center">
@@ -129,9 +149,9 @@ export default function ProfilePage() {
           <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full -mr-16 -mt-16 blur-3xl" />
           <h3 className="font-display font-bold text-lg mb-1 flex items-center gap-2">
             <Award className="w-5 h-5 text-primary" />
-            Fuel Hunter Level 1
+            Fuel Hunter Level {acclevel}
           </h3>
-          <p className="text-xs text-muted-foreground mb-4">Post 5 more updates to reach Level 2</p>
+          <p className="text-xs text-muted-foreground mb-4">Post {nextTarget - profile?.reports_count} more updates to reach Level {acclevel + 1}</p>
           <div className="w-full h-2 bg-background rounded-full overflow-hidden">
             <div className="h-full fuel-gradient w-1/3" />
           </div>

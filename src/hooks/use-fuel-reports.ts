@@ -22,6 +22,22 @@ export function useFuelReports() {
 
       if (error) throw error;
 
+      let userVotes: Record<string, "up" | "down"> = {};
+      const { data: userData } = await supabase.auth.getUser();
+      if (userData.user) {
+        const { data: votesData } = await supabase
+          .from("fuel_report_votes")
+          .select("report_id, vote_type")
+          .eq("user_id", userData.user.id);
+        
+        if (votesData) {
+          userVotes = votesData.reduce((acc: any, curr: any) => {
+            acc[curr.report_id] = curr.vote_type;
+            return acc;
+          }, {});
+        }
+      }
+
       const formattedReports: FuelReport[] = data.map((report: any) => ({
         id: report.id,
         stationName: report.station_name,
@@ -35,6 +51,7 @@ export function useFuelReports() {
         lat: report.lat,
         lng: report.lng,
         photo: report.photo_url,
+        userVote: userVotes[report.id],
       }));
 
       setReports(formattedReports);
@@ -50,7 +67,7 @@ export function useFuelReports() {
     fetchReports();
   }, [location]);
 
-  const addReport = async (report: Omit<FuelReport, "id" | "timePosted" | "upvotes" | "downvotes" | "distance">) => {
+  const addReport = async (report: Omit<FuelReport, "id" | "timePosted" | "upvotes" | "downvotes" | "distance" | "reporter">) => {
     try {
       const { data: userData } = await supabase.auth.getUser();
       if (!userData.user) {
@@ -90,7 +107,7 @@ export function useFuelReports() {
         report_id: id,
         user_id: userData.user.id,
         vote_type: type,
-      });
+      }, { onConflict: 'user_id,report_id' });
 
       if (error) throw error;
 

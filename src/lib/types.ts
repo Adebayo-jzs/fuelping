@@ -11,6 +11,7 @@ export interface FuelReport {
   lat: number;
   lng: number;
   photo?: string;
+  userVote?: "up" | "down";
 }
 
 export interface UserProfile {

@@ -62,31 +62,39 @@ export function FuelCard({ report, onVote }: FuelCardProps) {
           <div className="flex items-center gap-1">
             <button
               onClick={() => onVote(report.id, "up")}
-              className="flex items-center gap-1 text-xs px-2 py-1 rounded-md bg-success/10 text-success hover:bg-success/20 transition-colors"
+              className={`flex items-center gap-1 text-xs px-2 py-1 rounded-md transition-colors ${
+                report.userVote === "up" 
+                  ? "bg-success text-success-foreground" 
+                  : "bg-success/10 text-success hover:bg-success/20"
+              }`}
             >
-              <ThumbsUp className="w-3 h-3" /> {report.upvotes}
+              <ThumbsUp className={`w-3 h-3 ${report.userVote === "up" ? "fill-current" : ""}`} /> {report.upvotes}
             </button>
             <button
               onClick={() => onVote(report.id, "down")}
-              className="flex items-center gap-1 text-xs px-2 py-1 rounded-md bg-destructive/10 text-destructive hover:bg-destructive/20 transition-colors"
+              className={`flex items-center gap-1 text-xs px-2 py-1 rounded-md transition-colors ${
+                report.userVote === "down" 
+                  ? "bg-destructive text-destructive-foreground" 
+                  : "bg-destructive/10 text-destructive hover:bg-destructive/20"
+              }`}
             >
-              <ThumbsDown className="w-3 h-3" /> {report.downvotes}
+              <ThumbsDown className={`w-3 h-3 ${report.userVote === "down" ? "fill-current" : ""}`} /> {report.downvotes}
             </button>
-            <button
+            {/* <button
               onClick={() => setShowTip(true)}
               className="text-xs px-2 py-1 rounded-md fuel-gradient text-primary-foreground font-semibold hover:opacity-90 transition-opacity ml-1"
             >
               Tip
-            </button>
+            </button> */}
           </div>
         </div>
       </div>
 
-      <TipModal
+      {/* <TipModal
         open={showTip}
         onClose={() => setShowTip(false)}
         reporter={report.reporter}
-      />
+      /> */}
     </>
   );
 }
