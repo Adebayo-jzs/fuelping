@@ -64,16 +64,22 @@ export function FuelCard({ report, onVote }: FuelCardProps) {
                 {report.stationName}
               </h3>
             </div>
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <HugeiconsIcon icon={Location01Icon} className="w-3 h-3" />
-              <span>{locality || "Loading..."} • {report.distance} km away</span>
-              <HugeiconsIcon icon={Clock01Icon} className="w-3 h-3 ml-1" />
-              <span>{timeAgo(report.timePosted)}</span>
+            <div className="flex-col flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
+              <div className="flex items-center gap-1 min-w-0 max-w-[180px]">
+                <HugeiconsIcon icon={Location01Icon} className="w-3 h-3 flex-shrink-0" />
+                <span className="truncate">{locality || "Loading..."}</span>
+                <span className="hiddn xs:inline text-muted-foreground/30">•</span>
+                <span className="whitespace-nowrap">{report.distance} km away</span>
+              </div>
+              <div className="flex items-center gap-1 whitespace-nowrap ml-auto sm:ml-0">
+                <HugeiconsIcon icon={Clock01Icon} className="w-3 h-3" />
+                <span>{timeAgo(report.timePosted)}</span>
+              </div>
             </div>
           </div>
           <div className="text-right">
             <p className="font-display font-bold text-xl text-primary">₦{report.price}</p>
-            <span className="text-xs text-muted-foreground">/litre</span>
+            <span className="text-xs text-muted-foreground">/{report.fuelType === "Gas" ? "kg" : "litre"}</span>
           </div>
         </div>
 
