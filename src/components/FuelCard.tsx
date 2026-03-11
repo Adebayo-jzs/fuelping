@@ -27,10 +27,13 @@ interface FuelCardProps {
 
 export function FuelCard({ report, onVote }: FuelCardProps) {
   const [showTip, setShowTip] = useState(false);
-  const [locality, setLocality] = useState<string>(report.locality || "");
+  const initialLocality = report.locality && report.state 
+    ? `${report.locality}, ${report.state}` 
+    : (report.locality || report.state || "");
+  const [locality, setLocality] = useState<string>(initialLocality);
 
   useEffect(() => {
-    if (report.locality) return;
+    if (report.locality && report.state) return;
 
     const fetchLocality = async (lat: number, lng: number) => {
       try {
@@ -49,7 +52,7 @@ export function FuelCard({ report, onVote }: FuelCardProps) {
     };
 
     fetchLocality(report.lat, report.lng).then(setLocality);
-  }, [report.lat, report.lng, report.locality]);
+  }, [report.lat, report.lng, report.locality, report.state]);
   return (
     <>
       <div className="bg-card rounded-lg p-4 border border-border animate-slide-up">

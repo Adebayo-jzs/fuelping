@@ -71,7 +71,7 @@
 
 @layer utilities {
   .fuel-glow {
-    box-shadow: 0 0 20px hsl(36 95% 55% / 0.15), 0 0 60px hsl(36 95% 55% / 0.05);
+    /* box-shadow: 0 0 20px hsl(36 95% 55% / 0.15), 0 0 60px hsl(36 95% 55% / 0.05); */
   }
 
   .fuel-gradient {

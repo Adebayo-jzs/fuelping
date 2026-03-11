@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Flame, TrendingUp, Star, Award, LogOut, Loader2, LogIn } from "lucide-react";
+import { Fire02Icon,SignIn,SignOut } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { supabase } from "@/integrations/supabase/client";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
@@ -85,17 +87,17 @@ export default function ProfilePage() {
     return (
       <div className="min-h-screen bg-background flex flex-col items-center justify-center p-6 text-center">
         <div className="w-20 h-20 rounded-2xl fuel-gradient flex items-center justify-center fuel-glow mb-6">
-          <Flame className="w-10 h-10 text-primary-foreground" />
+          <HugeiconsIcon icon={Fire02Icon} className="w-10 h-10 text-primary-foreground" />
         </div>
         <h1 className="text-2xl font-display font-bold mb-2">Track Your Impact</h1>
         <p className="text-muted-foreground mb-8 max-w-xs">
-          Join the community to post updates, earn trust points, and help others find fuel.
+          Join the community to post updates, earn trust points, and help others find fuel prices.
         </p>
         <button
           onClick={() => navigate("/auth")}
           className="w-full max-w-xs py-4 rounded-2xl font-display font-bold text-lg fuel-gradient text-primary-foreground fuel-glow hover:opacity-95 transition-all flex items-center justify-center gap-2"
         >
-          <LogIn className="w-5 h-5" />
+          <HugeiconsIcon icon={SignIn} className="w-5 h-5" />
           Sign In / Register
         </button>
       </div>
@@ -110,7 +112,7 @@ export default function ProfilePage() {
             {profile?.avatar_url ? (
               <img src={profile.avatar_url} alt="Avatar" className="w-full h-full rounded-2xl object-cover" />
             ) : (
-              <Flame className="w-8 h-8 text-primary-foreground" />
+              <HugeiconsIcon icon={Fire02Icon} className="w-8 h-8 text-primary-foreground" />
             )}
           </div>
           <div>
@@ -124,7 +126,7 @@ export default function ProfilePage() {
           onClick={handleLogout}
           className="p-2 rounded-xl bg-secondary text-muted-foreground hover:text-destructive transition-colors"
         >
-          <LogOut className="w-5 h-5" />
+          <HugeiconsIcon icon={SignOut} className="w-5 h-5" />
         </button>
       </header>
 
