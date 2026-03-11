@@ -150,7 +150,7 @@ export default function PostUpdatePage() {
           {loading ? (
             <Loader2 className="w-6 h-6 animate-spin" />
           ) : (
-            "Post Intelligence"
+            "Post Update"
           )}
         </button>
       </form>

@@ -140,7 +140,7 @@ export default function AuthPage() {
       </div>
 
       <footer className="mt-auto pt-10 text-center text-xs text-muted-foreground">
-        <p>&copy; 2024 Fuelping. Real-time fuel intelligence.</p>
+        <p>&copy; 2026 Fuelping. Real-time fuel update.</p>
       </footer>
     </div>
   );
