@@ -65,9 +65,9 @@ export function FuelCard({ report, onVote }: FuelCardProps) {
               </h3>
             </div>
             <div className="flex-col flex-wrap items-center gap-x-2 gap-y-1 text-xs text-muted-foreground">
-              <div className="flex items-center gap-1 min-w-0 max-w-[180px]">
+              <div className="flex items-center gap-1 min-w-0 max-w-[280px]">
                 <HugeiconsIcon icon={Location01Icon} className="w-3 h-3 flex-shrink-0" />
-                <span className="truncate">{locality || "Loading..."}</span>
+                <span className="">{locality || "Loading..."}</span>
                 <span className="hiddn xs:inline text-muted-foreground/30">•</span>
                 <span className="whitespace-nowrap">{report.distance} km away</span>
               </div>
