@@ -6,6 +6,7 @@ import {
   InformationCircleIcon
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import { LocationSearch } from "@/components/LocationSearch";
 import { useFuelReports } from "@/hooks/use-fuel-reports";
 
 export default function MapPage() {
@@ -37,9 +38,12 @@ export default function MapPage() {
   return (
     <div className="min-h-screen bg-background pb-20 animate-fade-in">
       <header className="sticky top-0 z-30 bg-background/95 backdrop-blur-md border-b border-border px-4 py-4">
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="font-display font-bold text-xl text-foreground">Nearby Stations</h1>
-          <HugeiconsIcon icon={FilterIcon} className="w-5 h-5 text-muted-foreground" />
+        <div className="flex flex-col gap-3 mb-4">
+          <div className="flex items-center justify-between">
+            <h1 className="font-display font-bold text-xl text-foreground">Nearby Stations</h1>
+            <HugeiconsIcon icon={FilterIcon} className="w-5 h-5 text-muted-foreground" />
+          </div>
+          <LocationSearch />
         </div>
         
         {/* Filter Pills */}

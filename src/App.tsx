@@ -12,25 +12,29 @@ import ProfilePage from "./pages/ProfilePage";
 import AuthPage from "./pages/AuthPage";
 import NotFound from "./pages/NotFound"; 
 
+import { LocationProvider } from "@/contexts/LocationContext";
+
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
-      <TooltipProvider>
-        <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/map" element={<MapPage />} />
-            <Route path="/post" element={<PostUpdatePage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-            {/* <Route path="/auth" element={<AuthPage />} /> */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-          <BottomNav />
-        </BrowserRouter>
-      </TooltipProvider>
+      <LocationProvider>
+        <TooltipProvider>
+          <Sonner />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/map" element={<MapPage />} />
+              <Route path="/post" element={<PostUpdatePage />} />
+              <Route path="/profile" element={<ProfilePage />} />
+              {/* <Route path="/auth" element={<AuthPage />} /> */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+            <BottomNav />
+          </BrowserRouter>
+        </TooltipProvider>
+      </LocationProvider>
     </AuthProvider>
   </QueryClientProvider>
 );
