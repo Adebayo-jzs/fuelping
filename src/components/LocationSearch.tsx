@@ -13,10 +13,24 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Location } from "@/lib/types";
 
+interface NominatimResult {
+  place_id: number;
+  lat: string;
+  lon: string;
+  display_name: string;
+  address: {
+    city?: string;
+    town?: string;
+    village?: string;
+    suburb?: string;
+    state?: string;
+  };
+}
+
 export function LocationSearch() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<any[]>([]);
+  const [results, setResults] = useState<NominatimResult[]>([]);
   const { setLocation, location } = useLocation();
 
   useEffect(() => {
@@ -30,7 +44,7 @@ export function LocationSearch() {
         const response = await fetch(
           `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&addressdetails=1&limit=5&countrycodes=ng`
         );
-        const data = await response.json();
+        const data: NominatimResult[] = await response.json();
         setResults(data);
       } catch (error) {
         console.error("Geocoding search failed:", error);
@@ -40,7 +54,7 @@ export function LocationSearch() {
     return () => clearTimeout(timer);
   }, [query]);
 
-  const handleSelect = (result: any) => {
+  const handleSelect = (result: NominatimResult) => {
     const city = result.address.city || result.address.town || result.address.village || result.address.suburb || "";
     const state = result.address.state || "";
     

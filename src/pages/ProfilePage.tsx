@@ -3,14 +3,16 @@ import { Flame, TrendingUp, Star, Award, LogOut, Loader2, LogIn } from "lucide-r
 import { Fire02Icon,SignIn,SignOut } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { supabase } from "@/integrations/supabase/client";
+import type { Session } from "@supabase/supabase-js";
+import type { Tables } from "@/integrations/supabase/types";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 export default function ProfilePage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [profile, setProfile] = useState<any>(null);
-  const [session, setSession] = useState<any>(null);
+  const [profile, setProfile] = useState<Tables<"profiles"> | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -42,7 +44,7 @@ export default function ProfilePage() {
 
       if (error) throw error;
       setProfile(data);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error fetching profile:", error);
     } finally {
       setLoading(false);

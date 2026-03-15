@@ -14,13 +14,14 @@ import {
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import type { Session } from "@supabase/supabase-js";
 // import hugeI
 
 export default function HomePage() {
   const navigate = useNavigate();
   const { reports, vote, loading: reportsLoading } = useFuelReports();
   const { location, loading: locationLoading } = useLocation();
-  const [session, setSession] = useState<any>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [filter, setFilter] = useState("All");
 
   useEffect(() => {

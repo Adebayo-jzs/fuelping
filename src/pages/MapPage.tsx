@@ -51,7 +51,7 @@ export default function MapPage() {
           {["All", "PMS", "Diesel", "Gas"].map((type) => (
             <button
               key={type}
-              onClick={() => setFilter(type as any)}
+              onClick={() => setFilter(type as "All" | "PMS" | "Diesel" | "Gas")}
               className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all border ${
                 filter === type 
                   ? "fuel-gradient text-primary-foreground border-transparent fuel-glow" 
