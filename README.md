@@ -1,73 +1,58 @@
-# Welcome to your Lovable project
+# Fuelping ⛽
 
-## Project info
+**Community-driven real-time fuel price updates at nearby stations in Nigeria.**
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+Fuelping helps you find the most affordable fuel prices (PMS, Diesel, Gas) in your locality through real-time, community-sourced reports. Navigate high fuel costs with ease by checking what others are reporting near you.
 
-## How can I edit this code?
+## 🚀 Key Features
 
-There are several ways of editing your application.
+- **Real-time Price Reports**: Get the latest prices for PMS, Diesel, and Gas.
+- **Interactive Map**: Visualize nearby fuel stations and their reported prices (Map integration in progress).
+- **Community Voting**: Upvote accurate reports and downvote outdated ones to maintain data integrity.
+- **Location-Based Insights**: Automatically find stations near your current location or search specifically.
+- **Distance Tracking**: See exactly how far each station is from you.
 
-**Use Lovable**
+## 🛠️ Technology Stack
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+This project is built with modern web technologies:
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Frontend**: React, Vite, TypeScript
+- **Styling**: Tailwind CSS, shadcn/ui
+- **Icons**: Hugeicons (Free Icons)
+- **Backend/Database**: Supabase
+- **State Management**: TanStack Query (React Query)
+- **Deployment**: Lovable / Vercel
 
-**Use your preferred IDE**
+## 💻 Local Development
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+If you want to run this project locally, follow these steps:
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Prerequisites
 
-Follow these steps:
+- Node.js & npm installed - [Install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+
+### Steps
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
+# 1. Clone the repository
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# 2. Navigate to the project directory
+cd fuelping
 
-# Step 3: Install the necessary dependencies.
+# 3. Install dependencies
 npm i
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# 4. Start the development server
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+## 🏗️ Project Info
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+**URL**: [https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID)
 
-**Use GitHub Codespaces**
+Changes made via Lovable will be committed automatically to this repo. Pushed changes to this repository will also be reflected in Lovable.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+*Fuelping: Fueling Nigeria, together.*
