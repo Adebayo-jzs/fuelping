@@ -39,8 +39,9 @@ export default function AuthPage() {
         toast.success("Welcome back!");
         navigate("/");
       }
-    } catch (error: any) {
-      toast.error(error.message || "An error occurred during authentication");
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : "An error occurred during authentication";
+      toast.error(message);
     } finally {
       setLoading(false);
     }

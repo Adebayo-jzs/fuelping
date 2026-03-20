@@ -3,6 +3,14 @@ import { FuelReport } from "@/lib/types";
 import { supabase } from "@/integrations/supabase/client";
 import { useLocation } from "./use-location";
 import { toast } from "sonner";
+import type { Tables } from "@/integrations/supabase/types";
+
+type FuelReportWithProfile = Tables<"fuel_reports"> & {
+  profiles: Pick<Tables<"profiles">, "username"> | null;
+};
+
+type FuelReportVote = Pick<Tables<"fuel_report_votes">, "report_id" | "vote_type">;
+
 
 export function useFuelReports() {
   const [reports, setReports] = useState<FuelReport[]>([]);
@@ -31,14 +39,17 @@ export function useFuelReports() {
           .eq("user_id", userData.user.id);
         
         if (votesData) {
-          userVotes = votesData.reduce((acc: any, curr: any) => {
-            acc[curr.report_id] = curr.vote_type;
+          userVotes = votesData.reduce<Record<string, "up" | "down">>((acc, curr: FuelReportVote) => {
+            const voteType = curr.vote_type === "up" || curr.vote_type === "down" ? curr.vote_type : undefined;
+            if (voteType) {
+              acc[curr.report_id] = voteType;
+            }
             return acc;
           }, {});
         }
       }
 
-      const formattedReports: FuelReport[] = data.map((report: any) => ({
+      const formattedReports: FuelReport[] = (data as FuelReportWithProfile[]).map((report) => ({
         id: report.id,
         stationName: report.station_name,
         fuelType: report.fuel_type as "PMS" | "Diesel" | "Gas",
@@ -57,7 +68,7 @@ export function useFuelReports() {
       }));
 
       setReports(formattedReports);
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error fetching reports:", error);
       toast.error("Failed to load fuel reports");
     } finally {
@@ -89,9 +100,10 @@ export function useFuelReports() {
 
       toast.success("Report posted successfully!");
       fetchReports();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error adding report:", error);
-      toast.error(error.message || "Failed to post report");
+      const message = error instanceof Error ? error.message : "Failed to post report";
+      toast.error(message);
     }
   };
 
@@ -114,7 +126,7 @@ export function useFuelReports() {
       // In production, you'd use a database function to update counts
       // For now, we'll refetch to show updated data
       fetchReports();
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error voting:", error);
       toast.error("Failed to register vote");
     }
